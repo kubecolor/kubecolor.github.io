@@ -1,65 +1,51 @@
 ---
 title: Reference
-description: HOw to use Kubecolor
+description: Kubecolor Reference
 ---
 
-## Installation
+## Flags
 
-### Homebrew
+Available flags for kubecolor. When you pass them, kubecolor will understand them but these flags won't be passed to kubectl.
 
-![GitHub Release](https://img.shields.io/github/v/release/kubecolor/kubecolor?display_name=tag&label=Homebrew&color=4cc61f)
+* `--kubecolor-version`
 
-```sh
-brew install kubecolor/tap/kubecolor
+Prints the version of kubecolor (not kubectl one).
+
+* `--light-background`
+
+When your terminal's background color is something light (e.g white), default color preset might look too bright and not readable.
+If so, specify `--light-background` as a command line argument. kubecolor will use a color preset for light-backgrounded environment.
+
+* `--force-colors`
+
+By default, kubecolor never output the result in colors when the tty is not a terminal standard output.
+If you want to force kubecolor to show the result in colors for non-terminal tty, you can specify this flag.
+For example, when you want to pass kubecolor result to grep (`kubecolor get pods | grep pod_name`), this option is useful.
+
+* `--plain`
+
+When you don't want to colorize output, you can specify `--plain`. Kubecolor understands this option and outputs the result without colorizing.
+
+## ENV Variables
+
+* `KUBECOLOR_OBJ_FRESH`
+
+When setting the variable `KUBECOLOR_OBJ_FRESH` to a duration, you can change the color of the object depending on its creation time.
+
+Please see [Specify object fresh age threshold](#specify-object-fresh-age-threshold)
+
+* `KUBECOLOR_FORCE_COLORS`
+
+In addition to forcing colors with `--force-colors`, you can also do so by setting the environment variable `KUBECOLOR_FORCE_COLORS=true`.
+You can use this environment variable to colorize output when you invoke kubecolor in the `watch` command (e.g. `watch kubecolor get pods`).
+Set the following alias:
+
+```shell
+alias watch='KUBECOLOR_FORCE_COLORS=true watch --color '
 ```
 
-### Scoop
+Be sure to include the space at the end to enable alias expansion (without this additional space, the command `watch kgp` would fail, for example).
 
-![Scoop Version](https://img.shields.io/scoop/v/kubecolor?label=Scoop%2FMain&color=4cc61f)
+* `KUBECOLOR_LIGHT_BACKGROUND`
 
-```sh
-scoop install kubecolor
-```
-
-### Nix
-
-[![nixpkgs unstable package](https://repology.org/badge/version-for-repo/nix_unstable/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
-
-```sh
-nix-shell -p kubecolor
-```
-
-### AUR (Arch User Repositories)
-
-[![AUR package](https://repology.org/badge/version-for-repo/aur/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
-
-```sh
-yay -Syu kubecolor
-```
-
-### Download binary via GitHub release
-
-Go to [Release page](https://github.com/kubecolor/kubecolor/releases) then download the binary which fits your environment.
-
-### Compile from source
-
-Requires Go 1.21 (or later)
-
-```sh
-go install github.com/kubecolor/kubecolor@latest
-```
-
-## Usage
-
-kubecolor understands every subcommands and options which are available for `kubectl`. What you have to do is just using `kubecolor`
-instead of `kubectl` like:
-
-```sh
-kubecolor --context=your_context get pods -o json
-```
-
-If you want to make the colorized kubectl default on your shell, just add this line into your shell configuration file:
-
-```sh
-alias kubectl="kubecolor"
-```
+In addition to use the light color preset with `--light-background`, you can also do so by setting the environment variable `KUBECOLOR_LIGHT_BACKGROUND=true`.

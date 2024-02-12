@@ -14,10 +14,13 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Guides', link: '/guides/example/' },
-					],
+					autogenerate: { directory: 'guides' },
+					// items: [
+					// 	// Each item here is one entry in the navigation menu.
+					// 	{ label: 'Install', link: '/guides/install/' },
+					// 	{ label: 'Color Themes', link: '/guides/themes/' },
+					// 	{ label: 'Examples', link: '/guides/examples/' },
+					// ],
 				},
 				{
 					label: 'Reference',
