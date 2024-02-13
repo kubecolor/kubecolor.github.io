@@ -9,9 +9,19 @@ This repo contains the documentation and website (Github Pages) for [KubeColor P
 # Build
 
 This project is done using [Astro](https://astro.build/) and the `astrojs/starlight` [theme](https://astro.build/themes/details/starlight/).
-### Dev
 
+Check markup reference in [Starlight Docs](https://starlight.astro.build/guides/authoring-content/
+)
+## Dev
 
+```bash
+cd docs
+npm run dev
+```
+
+## Deployment
+
+Deployment is done using a Github Action 
 
 ## Contributions
 

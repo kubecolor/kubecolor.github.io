@@ -8,6 +8,9 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'KubeColor',
+			logo: {
+				src: './src/assets/kubecolor_logo.svg',
+			},
 			social: {
 				github: 'https://github.com/kubecolor/kubecolor',
 			},
