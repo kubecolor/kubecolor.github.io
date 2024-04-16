@@ -2,7 +2,7 @@
 
 # kubecolor
 
-Kubecolor is a `kubectl` replacement used to add colors to your kubectl output.
+Kubecolor is a `kubectl` wrapper used to add colors to your kubectl output.
 
 This repo contains the documentation and website (Github Pages) for the [kubecolor project](https://github.com/kubecolor/kubecolor)
 
