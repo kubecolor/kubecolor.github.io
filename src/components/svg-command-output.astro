@@ -1,0 +1,26 @@
+---
+import Svg from './svg.astro';
+
+export interface Props {
+  name: string;
+}
+
+const { name } = Astro.props as Props;
+---
+
+<div class="command-output-container">
+  <Svg {name} class:list="command-output" />
+</div>
+
+<style>
+  .command-output-container {
+    overflow-x: auto;
+    border-radius: 8px;
+  }
+
+  svg.command-output {
+    max-width: none;
+    width: revert-layer;
+    height: revert-layer;
+  }
+</style>
