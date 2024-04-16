@@ -7,7 +7,7 @@ export default defineConfig({
   	// base: '',
 	integrations: [
 		starlight({
-			title: 'KubeColor',
+			title: 'kubecolor',
 			logo: {
 				src: './src/assets/kubecolor_logo.svg',
 			},
