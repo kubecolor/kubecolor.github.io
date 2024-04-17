@@ -14,14 +14,13 @@ hero:
     - text: Check the code on Github
       link: https://github.com/kubecolor/kubecolor
       icon: external
-# banner:
-#   content: |
-#     v0.3.0 coming soon, 
-#    <a href="https://github.com/kubecolor/kubecolor/release">Check it out</a>
 ---
 
+import SvgCommandOutput from '../../components/svg-command-output.astro';
+
 # Features
-- Compatible with any `kubecolor` version
+
+- Compatible with any `kubectl` version
 - Dynamic tty detection to send plaintext when called programatically
 - Support alias and autocompletion
 - Custom color themes (coming soon)
@@ -31,4 +30,8 @@ Tired of reading with monochrome in your termnal ?
 
 **This is what kubecolor can do for you**:
 
-![ex](/assets/kubectl-combined.png)
+<SvgCommandOutput name="kubectl-apply.svg" />
+
+<SvgCommandOutput name="kubectl-get-pods.svg" />
+
+<SvgCommandOutput name="kubectl-describe-pod.svg" />

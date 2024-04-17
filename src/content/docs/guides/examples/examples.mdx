@@ -4,7 +4,8 @@ description: How to use kubecolor
 sidebar:
   order: 10
 ---
-import { Assets } from 'astro:assets';
+
+import SvgCommandOutput from '../../../../components/svg-command-output.astro';
 
 ## What's this?
 
@@ -14,9 +15,32 @@ you can use kubecolor as a complete alternative of kubectl.
 
 ## Examples 
 
-![ex](/assets/kubectl-combined.png)
+<SvgCommandOutput name="kubectl-apply.svg" />
 
-* You can also change color theme for light-backgrounded environment
+<SvgCommandOutput name="kubectl-get-pods.svg" />
 
-  ![image](https://user-images.githubusercontent.com/60682957/95733403-0c523b00-0cbd-11eb-9ff9-abc5469e97ca.png)
+<SvgCommandOutput name="kubectl-describe-pod.svg" />
 
+### Light theme
+
+You can also change color theme for light-backgrounded environment
+
+<SvgCommandOutput name="kubectl-apply-light.svg" />
+
+<SvgCommandOutput name="kubectl-get-pods-light.svg" />
+
+<SvgCommandOutput name="kubectl-describe-pod-light.svg" />
+
+### Color-blind themes
+
+We also have colorblind-adjusted color themes
+
+<SvgCommandOutput name="kubectl-get-pods-protanopia.svg" />
+
+<SvgCommandOutput name="kubectl-get-pods-deuteranopia.svg" />
+
+<SvgCommandOutput name="kubectl-get-pods-tritanopia.svg" />
+
+:::note
+As of version `v0.3.0`, both `deuteranopia` and `tritanopia` themes are the same as `protanopia`. They may differ in future versions when we better tune them. Set your configuration to match your color-blindness type so you will benefit of the future changes. [We gladly accept suggestions](https://github.com/kubecolor/kubecolor/issues/new) on how to improve them.
+:::
