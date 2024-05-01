@@ -10,21 +10,21 @@ sidebar:
 
 [![Homebrew version](https://repology.org/badge/version-for-repo/homebrew/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
 
-```sh
+```shell
 brew install kubecolor
 ```
 
 :::note
 If you previously installed `kubecolor` using the old `brew install kubecolor/tap/kubecolor` command, remove it first:
 
-```sh
+```shell
 brew uninstall kubecolor
 brew untap kubecolor/tap
 brew update
 brew install kubecolor
 ```
 
-</details>
+:::
 
 ### Scoop
 
@@ -50,17 +50,50 @@ nix-shell -p kubecolor
 yay -Syu kubecolor
 ```
 
+### Termux (Android)
+
+[![Termux version](https://repology.org/badge/version-for-repo/termux/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
+
+```sh
+pkg install kubecolor
+```
+
 ### Download binary via GitHub release
 
 Go to [Release page](https://github.com/kubecolor/kubecolor/releases) then download the binary which fits your environment.
 
 ### Compile from source
 
-Requires Go 1.21 (or later)
+Requires Go 1.22 (or later)
 
 ```sh
 go install github.com/kubecolor/kubecolor@latest
 ```
+
+### Docker
+
+Running it via Docker can be nice for just trying out kubecolor:
+
+```sh
+docker run --rm -it -v $HOME/.kube:/home/nonroot/.kube:ro ghcr.io/kubecolor/kubecolor get pods
+```
+
+:::note
+If you're getting the error <code>permission denied</code>  (common in environments like WSL):
+
+```log
+error: error loading config file "/home/nonroot/.kube/config": open /home/nonroot/.kube/config: permission denied
+```
+
+then try changing the permission of your `~/.kube/config` file:
+
+```sh
+chmod 644 ~/.kube/config
+```
+
+:::
+
+
 
 ## Usage
 

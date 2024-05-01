@@ -54,11 +54,7 @@ you can switch to the light theme by either:
 
 It is also possible to build your own color Theme, either by setting some variables or building up a config file.
 
-### Picking a new color
-
-Each configurable section support either a single color or a list of colors that will be cycled.
-
-#### Config type: single `color`
+### Picking a new `color`
 
 The `color` type supports a variety of formats. In its simplest form,
 you specify one of:
@@ -127,10 +123,10 @@ export KUBECOLOR_THEME_STDERR_ERROR="fg=yellow:bg=red:bold"
 export KUBECOLOR_THEME_STDERR_ERROR="#c0ffee"
 ```
 
-#### Config type: list of `color[]`
+#### Managing a list of `color[]`
 
-Similar to the `color` type, but allows multiple separate colors to be applied.
-Commonly used to allow alternating colors on columns.
+Similar to the `color` type, some fields allows multiple separate colors to be applied.
+This is commonly used to allow alternating colors on columns.
 
 The colors are separated by a slash `/`.
 
@@ -149,9 +145,6 @@ background color with some style modifiers instead:
 ```bash
 export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:bold"
 ```
-
-
-
 
 ### Using Theme variables
 
@@ -208,11 +201,16 @@ export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:b
 | `KUBECOLOR_THEME_VERSION_KEY`        | color[] | used on the key<br/>*(fallback to `KUBECOLOR_THEME_BASE_KEY`)*                                                                                                                                                                                      | `hicyan / cyan`
 
 
-### Creating a Theme in the configuration file
+### Creating a Theme using the configuration file
 
-Edit your config file and set any of the values in your theme:
+The benefit of creating a configuration file is that it can be shared with co-workers or
+used on different computers.
+
+Edit your config file and set any of the values in your theme. If not set, 
+the value from the default theme, set in the `preset` field, is used:
 
 ```yaml
+preset: dark
 theme:
   base:
     info: white # (color) general color for when things are informational
