@@ -156,25 +156,29 @@ Oh My ZSH and the Powerlevel 10k theme brings a lot of features that can be used
 
 
 ## Fish
+Fish completion is officially supported by kubectl.
 
-Fish completion is officially unsupported by `kubectl`, so it is unsupported by `kubecolor` as well.
+To begin with, if you don't already have kubectl completion working, make sure the following line is in your `~/.config/fish/config.fish` file:
 
-However, there are 2 ways we can make them work. Please keep in mind these are a kind of "hack" and not officially supported.
+```fish
+kubectl completion fish | source
+```
 
-1. Use [evanlucas/fish-kubectl-completions](https://github.com/evanlucas/fish-kubectl-completions) with `kubecolor`:
+To enable completions for `kubecolor`, add the following function to your `~/.config/fish/config.fish` file:
 
-   * Install `kubectl` completions (https://github.com/evanlucas/fish-kubectl-completions):
-      ```
-      fisher install evanlucas/fish-kubectl-completions
-      ```
-   * Add the following function to your `config.fish` file:
-      ```
-      function kubectl
-        kubecolor $argv
-      end
-      ```
-2. Use [awinecki/fish-kubecolor-completions](https://github.com/awinecki/fish-kubecolor-completions)
+```fish
+# reuse "kubectl" completions on "kubecolor"
+function kubecolor --wraps kubectl
+  command kubecolor $argv
+end
 
-   The first way will override `kubectl` command. If you wish to preserve both `kubectl` and `kubecolor` with completions, you need to copy [evanlucas/fish-kubectl-completions](https://github.com/evanlucas/fish-kubectl-completions) for the `kubecolor` command.
+# adds alias for "kubectl" to "kubecolor" with completions
+function kubectl --wraps kubectl
+  command kubecolor $argv
+end
 
-   For this purpose, you can use [awinecki/fish-kubecolor-completions](https://github.com/awinecki/fish-kubecolor-completions).
+# adds alias for "k" to "kubecolor" with completions
+function k --wraps kubectl
+  command kubecolor $argv
+end
+```
