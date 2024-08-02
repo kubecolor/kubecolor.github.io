@@ -1,0 +1,48 @@
+---
+title: Bash
+description: Setting up kubecolor for the Bash shell
+---
+
+Add `kubecolor` alias and config in the `~/.bashrc` file:
+
+```bash
+# ~/.bashrc
+alias kubectl=kubecolor
+```
+
+## Completions
+
+In Bash, the above `alias` setting does not distrupt completions on `kubectl`, even though it's remapped to execute `kubecolor`.
+
+However, if you want completion when explicitly running `kubecolor` then you need to add the following:
+
+```bash
+# ~/.bashrc
+
+# Make "kubecolor" borrow the same completion logic as "kubectl"
+complete -o default -F __start_kubectl kubecolor
+```
+
+If you are using an alias like `k=kubectl`, then you also need to add completion for `k`:
+
+```bash
+# ~/.bashrc
+alias k=kubectl
+complete -o default -F __start_kubectl k
+```
+
+As a prerequisite, you need `kubectl` completions installed.
+This can be achieved by either of these steps:
+
+- If your `kubectl` installation already came shipped with bash completions
+  (when you did `apt install kubectl`, `dnf install kubectl`, etc).
+  Try out `kubectl` to see if the completions are already installed before you install it twice.
+
+- or you add this to `~/.bashrc`:
+
+  ```bash
+  # ~/.bashrc
+
+  # This needs to be added before "complete -o default -F __start_kubectl ..."
+  source <(kubectl completion bash)
+  ```

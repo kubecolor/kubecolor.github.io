@@ -1,0 +1,85 @@
+---
+title: color
+description: Config type "color"
+---
+
+The `color` type supports a variety of formats.
+Here are some examples of settings colors as environment variables:
+
+```bash
+export KUBECOLOR_THEME_DATA_NULL="gray:italic"
+export KUBECOLOR_THEME_TABLE_HEADER="fg=white:bold:underline"
+export KUBECOLOR_THEME_STDERR_ERROR="fg=yellow:bg=red:bold"
+export KUBECOLOR_THEME_STDERR_ERROR="#c0ffee"
+```
+
+In its simplest form, you specify one of:
+
+* Named colors, which are mapped to the [3-bit and 4-bit ANSI colors](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit):
+
+  black, red, green, brown, yellow, blue, magenta, purple, cyan, white, hiblack,
+  lightblack, darkgray, gray, darkgrey, grey, hired, lightred, higreen,
+  lightgreen, lime, hibrown, lightbrown, hiyellow, lightyellow, gold, hiblue,
+  lightblue, himagenta, lightmagenta, hipurple, lightpurple, hicyan, lightcyan,
+  hiwhite, lightwhite
+
+  These colors depend on your terminal's color settings. So if your terminal
+  is configured with ["Dracula"](https://draculatheme.com/) theme,
+  then the `red` color name will be the "Dracula" variant of red.
+
+* A single [256-color number](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit):
+
+  * `5` (magenta)
+  * `82` (a light lime color)
+  * `240` (dark gray)
+
+* Hexadecimal: (case insensitive)
+
+  * `#aaff00`
+  * `aaff00`
+  * `0xaaff00`
+  * `#af0`
+  * `af0`
+
+* RGB, with values ranging from 0 to 255, in two different syntaxes:
+
+  * `192, 255, 238`
+  * `rgb(192, 255, 238)`
+
+* Raw escape data, in case you know what escape code you're looking for.
+
+  * `raw(53)` (overlined)
+  * `raw(4;53)` (underlined & overlined)
+
+By default the value refers to the foreground color (text color).
+The full syntax would be `fg=red`
+But you can also set the background color by adding in `bg=`, such as `bg=blue`.
+
+To set both foreground and background, you join together the colors with
+a colon `:`, like so: `fg=red:bg=blue`
+
+In addition, you can also apply style modifiers:
+
+* `bold`, or `b`: Bold text styling, **such as this**
+* `fuzzy`: Faint text style (inverse of bold)
+* `italic`, `i`: Italic text, *such as this*
+* `underline`, or `u`: Underlined text, <ins>such as this</ins>
+* `blink`: Blinking text. Not widely supported by terminals.
+* `fastblink`: Rapid blinking text. Not widely supported by terminals.
+* `reverse`, `invert`: Swaps foreground and background colors
+* `concealed`, `hidden`, `invisible`: Hidden text. Not widely supported.
+* `strikethrough`: Crossed out text, <del>such as this</del>
+
+Lastly, whitespace is allowed in the color codes:
+
+```bash
+# These are all semantically identical
+export KUBECOLOR_THEME_TABLE_HEADER="fg=white:bold:underline"
+export KUBECOLOR_THEME_TABLE_HEADER="fg=white : bold : underline"
+export KUBECOLOR_THEME_TABLE_HEADER="fg = white : bold : underline"
+export KUBECOLOR_THEME_TABLE_HEADER="  fg   =   white   :   bold   :   underline  "
+```
+
+---
+
+See also: [`color[]` type](/reference/types/color-list/)

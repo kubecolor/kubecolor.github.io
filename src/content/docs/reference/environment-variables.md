@@ -1,154 +1,37 @@
 ---
-title: Color Themes
-description: Changing the colors to your liking
-sidebar:
-  # Add a badge to the link
-  badge:
-    text: New
-    variant: tip
-  order: 3
+title: Environment variables
+description: Variables that are supported by kubecolor
 ---
 
-# Default color scheme
+## `KUBECOLOR_OBJ_FRESH`
 
-As of version v0.3.0, `kubecolor` bundles new themes:
+When setting the variable `KUBECOLOR_OBJ_FRESH` to a duration, you can change the color of the object depending on its creation time.
 
-| Preset                  | Description
-| ------                  | -----------
-| `dark` *(default)*      | For when your terminal's background is dark.
-| `light`                 | For when your terminal's background is light/bright.
-| `pre-0.0.21-dark`       | Original dark color scheme used before v0.0.21, as well as in the predecessor's ([hidetatz/kubecolor](https://github.com/hidetatz/kubecolor)) version.
-| `pre-0.0.21-light`      | Original light color scheme used before v0.0.21, as well as in the predecessor's ([hidetatz/kubecolor](https://github.com/hidetatz/kubecolor)) version.
-| `protanopia-dark`       | Color theme for [Protanopia color blindness](https://www.color-blindness.com/protanopia-red-green-color-blindness/). For when your terminal's background is dark.
-| `protanopia-light`      | Color theme for [Protanopia color blindness](https://www.color-blindness.com/protanopia-red-green-color-blindness/). For when your terminal's background is light/bright.
-| `deuteranopia-dark`(*)  | Color theme for [Deuteranopia color blindness](https://www.color-blindness.com/deuteranopia-red-green-color-blindness/). For when your terminal's background is dark.
-| `deuteranopia-light`(*) | Color theme for [Deuteranopia color blindness](https://www.color-blindness.com/deuteranopia-red-green-color-blindness/). For when your terminal's background is light/bright.
-| `tritanopia-dark`(*)    | Color theme for [Tritanopia color blindness](https://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/). For when your terminal's background is dark.
-| `tritanopia-light`(*)   | Color theme for [Tritanopia color blindness](https://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/). For when your terminal's background is light/bright.
+Please see [Specify object fresh age threshold](#specify-object-fresh-age-threshold)
 
-Kubecolor uses the `dark` theme by default.
+## `KUBECOLOR_FORCE_COLORS`
 
-Check the [examples](https://kubecolor.github.io/guides/examples/examples/#color-blind-themes) to see the difference.
+In addition to forcing colors with `--force-colors`, you can also do so by setting the environment variable `KUBECOLOR_FORCE_COLORS=auto`.
+See [Dynamic color support](#dynamic-color-support) section for all possible values.
 
-# Switching to a different color theme
-
-There's two way to switch to a different color theme:
-
-- setting the variable `KUBECOLOR_PRESET` to a specific theme. Ex:
-  ```shell
-  `KUBECOLOR_PRESET="protanopia-dark"`
-  ```
-- configuring the default theme in the configuration file at `~/.kube/color.yaml`:
-  ```yaml
-  preset: deuteranopia-light
-  ```
-
-## Light Theme
-
-you can switch to the light theme by either:
-
-- setting the variable `KUBECOLOR_LIGHT_BACKGROUND=true`
-- setting the `--light-background` argument on the command line
-- setting the variable `KUBECOLOR_PRESET="light"`
-- configuring the config file ( `~/.kube/color.yaml`) with `preset: light`
-
-## Custom color theme
-
-It is also possible to build your own color Theme, either by setting some variables or building up a config file.
-
-### Picking a new `color`
-
-The `color` type supports a variety of formats. In its simplest form,
-you specify one of:
-
-* Named colors, which are mapped to the [3-bit and 4-bit ANSI colors](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit):
-
-  black, red, green, brown, yellow, blue, magenta, purple, cyan, white, hiblack,
-  lightblack, darkgray, gray, darkgrey, grey, hired, lightred, higreen,
-  lightgreen, lime, hibrown, lightbrown, hiyellow, lightyellow, gold, hiblue,
-  lightblue, himagenta, lightmagenta, hipurple, lightpurple, hicyan, lightcyan,
-  hiwhite, lightwhite
-
-  These colors depend on your terminal's color settings. So if your terminal
-  is configured with "Solarized Dark" theme, then the `red` color name will be
-  the "Solarized Dark red".
-
-* A single [256-color number](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit):
-
-  * `5` (magenta)
-  * `82` (a light lime color)
-  * `240` (dark gray)
-
-* Hexadecimal: (case insensitive)
-
-  * `#aaff00`
-  * `aaff00`
-  * `0xaaff00`
-  * `#af0`
-  * `af0`
-
-* RGB, with values ranging from 0 to 255, in two different syntaxes:
-
-  * `192, 255, 238`
-  * `rgb(192, 255, 238)`
-
-* Raw escape data, in case you know what escape code you're looking for.
-
-  * `raw(53)` (overlined)
-  * `raw(4;53)` (underlined & overlined)
-
-By default the value refers to the foreground color (text color).
-The full syntax would be `fg=red`
-But you can also set the background color by adding in `bg=`, such as `bg=blue`.
-
-To set both foreground and background, you join together the colors with
-a colon `:`, like so: `fg=red:bg=blue`
-
-In addition, you can also apply style modifiers:
-
-* `bold`, or `b`: Bold text styling, **such as this**
-* `fuzzy`: Faint text style (inverse of bold)
-* `italic`, `i`: Italic text, *such as this*
-* `underline`, or `u`: Underlined text, <ins>such as this</ins>
-* `blink`: Blinking text. Not widely supported by terminals.
-* `fastblink`: Rapid blinking text. Not widely supported by terminals.
-* `reverse`, `invert`: Swaps foreground and background colors
-* `concealed`, `hidden`, `invisible`: Hidden text. Not widely supported.
-* `strikethrough`: Crossed out text, <del>such as this</del>
-
-Here are some examples of settings colors as environment variables:
+You can use this environment variable to colorize output when you invoke kubecolor in the `watch` command (e.g. `watch kubecolor get pods`).
+Set the following alias:
 
 ```bash
-export KUBECOLOR_THEME_DATA_NULL="gray:italic"
-export KUBECOLOR_THEME_TABLE_HEADER="fg=white:bold:underline"
-export KUBECOLOR_THEME_STDERR_ERROR="fg=yellow:bg=red:bold"
-export KUBECOLOR_THEME_STDERR_ERROR="#c0ffee"
+# Add this line to your ~/.bashrc, ~/.zshrc, or similar:
+alias watch='KUBECOLOR_FORCE_COLORS=auto watch --color '
+
+# Usage:
+watch kubecolor get pods
 ```
 
-#### Managing a list of `color[]`
+Be sure to include the space at the end to enable alias expansion (without this additional space, the command `watch kgp` would fail, for example).
 
-Similar to the `color` type, some fields allows multiple separate colors to be applied.
-This is commonly used to allow alternating colors on columns.
+## `KUBECOLOR_LIGHT_BACKGROUND`
 
-The colors are separated by a slash `/`.
+In addition to use the light color preset with `--light-background`, you can also do so by setting the environment variable `KUBECOLOR_LIGHT_BACKGROUND=true`.
 
-Example:
-
-```bash
-export KUBECOLOR_THEME_TABLE_COLUMNS="red/green/blue"
-```
-
-Above represents a `color[]` value of 3 colors, where your columns'
-color would cycle those colors: red, green, blue, red, green, blue, red, etc.
-
-You can of course use any color syntax, to for example have it cycle on
-background color with some style modifiers instead:
-
-```bash
-export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:bold"
-```
-
-### Using Theme variables
+## Theme variables
 
 | Environment variable                 | Type    | Description                                                                                                                                                                                                                                         | Dark theme
 | --------------------                 | ----    | -----------                                                                                                                                                                                                                                         | ----------
@@ -162,6 +45,11 @@ export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:b
 | `KUBECOLOR_THEME_BASE_KEY`           | color[] | general color for keys<br/>*(fallback to `[KUBECOLOR_THEME_BASE_SECONDARY]`)*                                                                                                                                                                       | `hicyan / cyan`
 |                                      |         |                                                                                                                                                                                                                                                     |
 | `KUBECOLOR_THEME_DEFAULT`            | color   | default when no specific mapping is found for the command                                                                                                                                                                                           | `green`
+|                                      |         |                                                                                                                                                                                                                                                     |
+| `KUBECOLOR_THEME_SHELL_COMMENT`      | color   | used on comments, e.g `# this is a comment`<br/>*(fallback to `KUBECOLOR_THEME_BASE_MUTED`)*                                                                                                                                                        | `gray:italic`
+| `KUBECOLOR_THEME_SHELL_COMMAND`      | color   | used on commands, e.g `kubectl` or `echo`<br/>*(fallback to `KUBECOLOR_THEME_BASE_SUCCESS`)*                                                                                                                                                        | `green`
+| `KUBECOLOR_THEME_SHELL_ARG`          | color   | used on arguments, e.g `get pods` in `kubectl get pods`<br/>*(fallback to `KUBECOLOR_THEME_BASE_INFO`)*                                                                                                                                             | `white`
+| `KUBECOLOR_THEME_SHELL_FLAG`         | color   | used on flags, e.g `--watch` in `kubectl get pods --watch`<br/>*(fallback to `KUBECOLOR_THEME_BASE_SECONDARY`)*                                                                                                                                     | `cyan`
 |                                      |         |                                                                                                                                                                                                                                                     |
 | `KUBECOLOR_THEME_DATA_KEY`           | color[] | used for the key<br/>*(fallback to `KUBECOLOR_THEME_BASE_KEY`)*                                                                                                                                                                                     | `hicyan / cyan`
 | `KUBECOLOR_THEME_DATA_STRING`        | color   | used when value is a string<br/>*(fallback to `KUBECOLOR_THEME_BASE_INFO`)*                                                                                                                                                                         | `hiyellow`
@@ -201,67 +89,9 @@ export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:b
 | `KUBECOLOR_THEME_OPTIONS_FLAG`       | color   | e.g "--kubeconfig"<br/>*(fallback to `KUBECOLOR_THEME_BASE_SECONDARY`)*                                                                                                                                                                             | `cyan`
 |                                      |         |                                                                                                                                                                                                                                                     |
 | `KUBECOLOR_THEME_VERSION_KEY`        | color[] | used on the key<br/>*(fallback to `KUBECOLOR_THEME_BASE_KEY`)*                                                                                                                                                                                      | `hicyan / cyan`
-
-
-### Creating a Theme using the configuration file
-
-The benefit of creating a configuration file is that it can be shared with co-workers or
-used on different computers.
-
-Edit your config file and set any of the values in your theme. If not set, 
-the value from the default theme, set in the `preset` field, is used:
-
-```yaml
-preset: dark
-theme:
-  base:
-    info: white # (color) general color for when things are informational
-    primary: magenta # (color) general color for when things are focus
-    secondary: cyan # (color) general color for when things are secondary focus
-    success: green # (color) general color for when things are good
-    warning: yellow # (color) general color for when things are wrong
-    danger: red # (color) general color for when things are bad
-    muted: gray:italic # (color) general color for when things are less relevant
-    key: hicyan / cyan # (color[]) general color for keys (fallback to [theme.base.secondary])
-  default: green # (color) default when no specific mapping is found for the command
-  data:
-    key: hicyan / cyan # (color[]) used for the key (fallback to theme.base.key)
-    string: hiyellow # (color) used when value is a string (fallback to theme.base.info)
-    "true": green # (color) used when value is true (fallback to theme.base.success)
-    "false": red # (color) used when value is false (fallback to theme.base.danger)
-    number: magenta # (color) used when the value is a number (fallback to theme.base.primary)
-    "null": gray:italic # (color) used when the value is null, nil, or none (fallback to theme.base.muted)
-    quantity: magenta # (color) used when the value is a quantity, e.g "100m" or "5Gi" (fallback to theme.data.number)
-    duration: none # (color) used when the value is a duration, e.g "12m" or "1d12h"
-    durationfresh: green # (color) color used when the time value is under a certain delay (fallback to theme.base.success)
-    ratio:
-      zero: gray:italic # (color) used for "0/0" (fallback to theme.base.muted)
-      equal: none # (color) used for "n/n", e.g "1/1"
-      unequal: yellow # (color) used for "n/m", e.g "0/1" (fallback to theme.base.warning)
-  status:
-    success: green # (color) used in status keywords, e.g "Running", "Ready" (fallback to theme.base.success)
-    warning: yellow # (color) used in status keywords, e.g "Terminating" (fallback to theme.base.warning)
-    error: red # (color) used in status keywords, e.g "Failed", "Unhealthy" (fallback to theme.base.danger)
-  table:
-    header: bold # (color) used on table headers (fallback to theme.base.info)
-    columns: white / cyan # (color[]) used on table columns when no other coloring applies such as status or duration coloring. The multiple colors are cycled based on column ID, from left to right. (fallback to [theme.base.info / theme.base.secondary])
-  stderr:
-    default: white # (color) default when no specific mapping is found for the output line (fallback to theme.base.info)
-    error: red # (color) e.g when text contains "error" (fallback to theme.base.danger)
-  describe:
-    key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
-  apply:
-    created: green # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
-    configured: yellow # (color) used on "deployment.apps/bar configured" (fallback to theme.base.warning)
-    unchanged: magenta # (color) used on "deployment.apps/quux unchanged" (fallback to theme.base.primary)
-    dryrun: cyan # (color) used on "deployment.apps/quux created (dry-run)" (fallback to theme.base.secondary)
-    fallback: green # (color) used when "kubectl apply" outputs unknown format (fallback to theme.base.success)
-  explain:
-    key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
-    required: red # (color) used on the trailing "-required-" string (fallback to theme.base.danger)
-  options:
-    flag: cyan # (color) e.g "--kubeconfig" (fallback to theme.base.secondary)
-  version:
-    key: hicyan / cyan # (color[]) used on the key (fallback to theme.base.key)
-```
-
+|                                      |         |                                                                                                                                                                                                                                                     |
+| `KUBECOLOR_THEME_HELP_HEADER`        | color   | e.g "Examples:" or "Options:"<br/>*(fallback to `KUBECOLOR_THEME_TABLE_HEADER`)*                                                                                                                                                                    | `bold`
+| `KUBECOLOR_THEME_HELP_FLAG`          | color   | e.g "--kubeconfig"<br/>*(fallback to `KUBECOLOR_THEME_BASE_SECONDARY`)*                                                                                                                                                                             | `cyan`
+| `KUBECOLOR_THEME_HELP_FLAGDESC`      | color   | Flag descripion under "Options:" heading<br/>*(fallback to `KUBECOLOR_THEME_BASE_INFO`)*                                                                                                                                                            | `white`
+| `KUBECOLOR_THEME_HELP_URL`           | color   | e.g `[https://example.com]`<br/>*(fallback to `KUBECOLOR_THEME_BASE_SECONDARY`)*                                                                                                                                                                    | `cyan`
+| `KUBECOLOR_THEME_HELP_TEXT`          | color   | Fallback text color<br/>*(fallback to `KUBECOLOR_THEME_BASE_INFO`)*                                                                                                                                                                                 | `white`

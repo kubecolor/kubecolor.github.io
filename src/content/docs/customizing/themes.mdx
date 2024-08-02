@@ -1,0 +1,212 @@
+---
+title: Color themes
+description: Changing the colors to your liking
+sidebar:
+  # Add a badge to the link
+  badge:
+    text: New
+    variant: tip
+  order: 3
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import SvgCommandOutput from '../../../components/svg-command-output.astro';
+
+# Default color scheme
+
+As of version v0.3.0, `kubecolor` bundles new themes (also referred to as "presets"):
+
+| Preset                                      | Description
+| ------                                      | -----------
+| `dark` *(default)*                          | For when your terminal's background is dark.
+| `light`                                     | For when your terminal's background is light/bright.
+| `pre-0.0.21-dark`, `pre-0.0.21-light`        | Original color scheme used before v0.0.21, as well as in the predecessor's ([hidetatz/kubecolor](https://github.com/hidetatz/kubecolor)) version.
+| `pre-0.3.0-dark`, `pre-0.3.0-light`          | Color scheme used before the introduction of configurable themes in v0.3.0, where we also updated the default theme.
+| `protanopia-dark`, `protanopia-light`        | Color theme for [Protanopia color blindness](https://www.color-blindness.com/protanopia-red-green-color-blindness/).
+| `deuteranopia-dark`, `deuteranopia-light`(*) | Color theme for [Deuteranopia color blindness](https://www.color-blindness.com/deuteranopia-red-green-color-blindness/).
+| `tritanopia-dark`, `tritanopia-light`(*)     | Color theme for [Tritanopia color blindness](https://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/).
+
+Kubecolor uses the `dark` theme by default.
+
+<Tabs>
+  <TabItem label="dark">
+    <SvgCommandOutput name="kubectl-get-pods.svg" />
+  </TabItem>
+  <TabItem label="light">
+    <SvgCommandOutput name="kubectl-get-pods-light.svg" />
+  </TabItem>
+  <TabItem label="protanopia-dark">
+    <SvgCommandOutput name="kubectl-get-pods-protanopia.svg" />
+  </TabItem>
+  <TabItem label="deuteranopia-dark">
+    <SvgCommandOutput name="kubectl-get-pods-deuteranopia.svg" />
+  </TabItem>
+  <TabItem label="tritanopia-dark">
+    <SvgCommandOutput name="kubectl-get-pods-tritanopia.svg" />
+  </TabItem>
+</Tabs>
+
+:::note
+(*) As of version `v0.3.0`, both `deuteranopia` and `tritanopia` themes are the same as `protanopia`.
+They may differ in future versions when we better tune them.
+Set your configuration to match your color-blindness type so you will benefit of the future changes.
+[We gladly accept suggestions](https://github.com/kubecolor/kubecolor/issues/new) on how to improve them.
+:::
+
+# Switching to a different color theme
+
+There's three way to switch to a different color theme:
+
+- Temporarily for a single command using the `--kubecolor-theme` flag:
+
+  ```bash
+  kubecolor get pods --kubecolor-theme=protanopia-dark
+  ```
+
+- Setting the environment variable `KUBECOLOR_PRESET` to a specific theme:
+
+  ```bash
+  # ~/.bashrc
+  export KUBECOLOR_PRESET="protanopia-dark"
+  ```
+
+- Configuring the default theme in the configuration file at `~/.kube/color.yaml`:
+
+  ```yaml
+  # ~/.kube/config.yaml
+  preset: protanopia-dark
+  ```
+
+## Light Theme
+
+you can switch to the light theme by either:
+
+- setting the variable `KUBECOLOR_LIGHT_BACKGROUND=true`
+- setting the `--light-background` argument on the command line
+- setting the variable `KUBECOLOR_PRESET="light"`
+- configuring the config file ( `~/.kube/color.yaml`) with `preset: light`
+
+<Tabs>
+  <TabItem label="Dark" icon="moon">
+    <SvgCommandOutput name="kubectl-describe-pod.svg" />
+  </TabItem>
+  <TabItem label="Light" icon="sun">
+    <SvgCommandOutput name="kubectl-describe-pod-light.svg" />
+  </TabItem>
+</Tabs>
+
+:::note
+  Kubecolor does not do any automatic detection for wether light
+  or dark theme should be used.
+
+  It is technically possible for a shell program to detect your terminal's
+  "dark/light mode preference".
+
+  This is however not yet implemented. See tracking issue: [#124](https://github.com/kubecolor/kubecolor/issues/124)
+:::
+
+## Custom color theme
+
+It is also possible to build your own color theme,
+either by setting some variables or building up a config file.
+
+For example:
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECOLOR_THEME_DATA_NULL="gray:italic"
+  export KUBECOLOR_THEME_TABLE_HEADER="fg=white:bold:underline"
+  export KUBECOLOR_THEME_STDERR_ERROR="fg=yellow:bg=red:bold"
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  theme:
+    data:
+      "null": gray:italic
+    table:
+      header: fg=white:bold:underline
+    stderr:
+      error: fg=yellow:bg=red:bold
+  ```
+  </TabItem>
+</Tabs>
+
+To list all environment variables and config options, see:
+
+- [Reference / Environment variables](/reference/environment-variables/)
+- [Reference / Config file ~/.kube/color.yaml](/reference/config/)
+
+## Fallback colors
+
+Most of our color options have configured "fallback colors".
+These config fields don't have a default value,
+but instead rely on another config field as their value.
+
+For example, the environment variable `KUBECOLOR_THEME_STATUS_SUCCESS`,
+which is used in pod statuses like `Ready` and `Running`; does not have a default color.
+Instead, it has a fallback to the `KUBECOLOR_THEME_BASE_SUCCESS` config field.
+
+Similarly, the `KUBECOLOR_THEME_APPLY_CREATED` environment variable
+(used on the "created" keyword in the `kubectl apply` command's output)
+also has a fallback color to the same "base success" color.
+
+This means that if you override `KUBECOLOR_THEME_BASE_SUCCESS` then you override
+both of these use cases at the same time. I.e this:
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECOLOR_THEME_BASE_SUCCESS="light-blue:italic"
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  theme:
+    base:
+      success: light-blue:italic
+  ```
+  </TabItem>
+</Tabs>
+
+Has the same effect as this:
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECOLOR_THEME_STATUS_SUCCESS="light-blue:italic"
+  export KUBECOLOR_THEME_APPLY_CREATED="light-blue:italic"
+  # omitting other uses of the "base.success" fallback color for brevity
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  theme:
+    apply:
+      created: light-blue:italic
+    status:
+      success: light-blue:italic
+    # omitting other uses of the "base.success" fallback color for brevity
+  ```
+  </TabItem>
+</Tabs>
+
+In effect, this means that you can modify the "base colors" and still adjust most
+of kubecolor's output to your color preference,
+while still allowing you to make finer adjustments where needed.
+
+Additionally, this also acts as forward-compatibility, where kubecolor can add
+new color config fields and they would still somewhat follow your current theme.
+
+## Submitting new themes
+
+We will happily accept any wild, goofy, awesome, super useful, and even weird themes
+that you want to share with the world!
+
+To submit one, please create a `~/.kube/color.yaml` file with the color overrides
+for your theme and then create a [feature request issue](https://github.com/kubecolor/kubecolor/issues/new?template=feature.yml)
+over on GitHub.

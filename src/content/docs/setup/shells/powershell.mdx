@@ -1,0 +1,39 @@
+---
+title: PowerShell
+description: Setting up kubecolor for the PowerShell shell
+---
+
+For PowerShell (`pwsh`) add the following lines to your profile (`$PROFILE`):
+
+```powershell
+# C:\Users\yourusername\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+
+# Set aliases
+Set-Alias -Name kubectl -Value kubecolor
+Set-Alias -Name k -Value kubectl
+```
+
+## Completions
+
+Completion can be easily borrowed from the `kubectl` command by adding this to your profile:
+
+```powershell
+# C:\Users\yourusername\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+
+# Reuse the kubectl completion on kubecolor and the aliases
+Register-ArgumentCompleter -CommandName 'k','kubectl','kubecolor' -ScriptBlock $__kubectlCompleterBlock
+```
+
+As a prerequisite, you need `kubectl` completions installed.
+This can be achieved by adding this to your profile:
+
+```powershell
+# C:\Users\yourusername\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+
+# Completion for kubectl
+# This needs to be added before Register-ArgumentCompleter
+if (Get-Command kubectl -ErrorAction SilentlyContinue) {
+  # This also registers the $__kubectlCompleterBlock variable
+  kubectl completion powershell | Out-String | Invoke-Expression
+}
+```

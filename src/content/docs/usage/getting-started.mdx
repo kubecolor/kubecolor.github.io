@@ -1,0 +1,85 @@
+---
+title: Usage
+sidebar:
+  order: 2
+---
+
+import SvgCommandOutput from '../../../components/svg-command-output.astro';
+
+First, make sure to install kubecolor: [Setup / Installation](/setup/install/).
+
+Kubecolor understands every subcommands and options which are available for `kubectl`.
+What you have to do is just use `kubecolor` instead of `kubectl` like:
+
+```bash
+# instead of this:
+kubectl get pods
+
+# use this:
+kubecolor get pods
+```
+
+If you want to make the colorized kubectl default on your shell,
+then override `kubectl` to become an alias instead:
+
+```bash
+# ~/.bashrc
+alias kubectl="kubecolor"
+```
+
+Sample:
+
+<SvgCommandOutput name="kubectl-get-pods.svg" />
+
+Read more on shell configuration:
+
+- [Setup / Shell / Bash](/setup/shells/bash/)
+- [Setup / Shell / Fish](/setup/shells/fish/)
+- [Setup / Shell / PowerShell](/setup/shells/powershell/)
+- [Setup / Shell / Zsh](/setup/shells/zsh/)
+
+## Forcing colors
+
+Kubecolor will automatically disable its colorization if it detects that its output (stdout)
+is not a terminal or is a terminal that does not support colors.
+To override this behavior, you can for example use the `--force-colors` flag:
+
+```bash
+kubecolor get pods | cat -A
+#NAME          READY   STATUS    RESTARTS   AGE
+#nginx-dnmv5   1/1     Running   0          6d6h
+#nginx-m8pbc   1/1     Running   0          6d6h
+#nginx-qdf9b   1/1     Running   0          6d6h
+
+kubecolor get pods --force-colors | cat -A
+#^[[1mNAME          READY   STATUS    RESTARTS   AGE^[[0m$
+#^[[37mnginx-dnmv5^[[0m   ^[[36m1/1^[[0m     ^[[32mRunning^[[0m   ^[[36m0^[[0m          ^[[37m6d6h^[[0m$
+#^[[37mnginx-m8pbc^[[0m   ^[[36m1/1^[[0m     ^[[32mRunning^[[0m   ^[[36m0^[[0m          ^[[37m6d6h^[[0m$
+#^[[37mnginx-qdf9b^[[0m   ^[[36m1/1^[[0m     ^[[32mRunning^[[0m   ^[[36m0^[[0m          ^[[37m6d6h^[[0m$
+```
+
+The inverse can also be done by telling kubecolor to not use colors via the `--plain` flag.
+
+Read more about configuration options at our reference docs:
+
+- [Reference / Command-line flags](/reference/flags/)
+
+## Themes
+
+Theming was introduced in v0.3.0, and has a lot of configs available to provide
+fine-grained control over the colorization of the output.
+
+In short, you can for example supply the `--light-background` flag to instead use colors
+that are better suited for terminals with light background:
+
+<SvgCommandOutput name="kubectl-get-pods-light.svg" />
+
+Alternatively, we also have some colorblind-friendly themes available:
+
+<SvgCommandOutput name="kubectl-get-pods-protanopia.svg" />
+
+Read more:
+
+- [Customization / Color themes](/customizing/themes/)
+- [Reference / Environment variables](/reference/environment-variables/)
+- [Reference / Config file `~/.kube/color.yaml`](/reference/config/)

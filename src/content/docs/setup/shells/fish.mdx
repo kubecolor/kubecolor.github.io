@@ -1,0 +1,41 @@
+---
+title: Fish
+description: Setting up kubecolor for the Fish shell
+---
+
+With the fish shell, you can add an alias with completion support quite easily like so:
+
+```fish
+# ~/.config/fish/config.fish
+
+# adds alias for "kubectl" to "kubecolor" with completions
+function kubectl --wraps kubectl
+  command kubecolor $argv
+end
+
+# adds alias for "k" to "kubecolor" with completions
+function k --wraps kubectl
+  command kubecolor $argv
+end
+```
+
+To enable completions for `kubecolor`, then also add the following:
+
+```fish
+# ~/.config/fish/config.fish
+
+# reuse "kubectl" completions on "kubecolor"
+function kubecolor --wraps kubectl
+  command kubecolor $argv
+end
+```
+
+As a prerequisite, you need `kubectl` completions installed.
+This can be achieved by adding this to your fish config file:
+
+```fish
+# ~/.config/fish/config.fish
+
+# This needs to be added before "function ... --wraps kubectl"
+kubectl completion fish | source
+```

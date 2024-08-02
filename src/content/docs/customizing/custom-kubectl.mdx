@@ -1,0 +1,58 @@
+---
+title: Custom kubectl or OpenShift CLI
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Sometimes, you may want to specify which command to use as `kubectl`
+internally in kubecolor. For example, when you want to use a versioned-kubectl
+`kubectl.1.19`, you can do that by an environment variable or config field:
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECTL_COMMAND="kubectl.1.19"
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  kubectl: kubectl.1.19
+  ```
+  </TabItem>
+</Tabs>
+
+The config defaults to `kubectl`.
+
+## OpenShift
+
+This feature can be used to use kubecolor with the OpenShift CLI (`oc`) as well:
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECTL_COMMAND="oc"
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  kubectl: oc
+  ```
+  </TabItem>
+</Tabs>
+
+Then you can set `oc` to be an alias for `kubecolor`:
+
+```bash
+# ~/.bashrc
+alias oc="kubecolor"
+```
+
+Alternatively, instead of using the config, you can set the `oc` alias
+to also set the environment variable:
+
+```bash
+# ~/.bashrc
+alias oc="env KUBECTL_COMMAND=oc kubecolor"
+```

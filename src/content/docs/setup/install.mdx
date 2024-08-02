@@ -1,23 +1,43 @@
 ---
-title: Install Guide
+title: Installation
 description: How to install kubecolor
 sidebar:
   order: 1
 ---
 
+As a prerequisite, you must first [install kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
 
-### Homebrew
+:::caution
+  Because kubecolor internally calls `kubectl` command, if you are using unsupported kubectl version, it's also not supported by kubecolor.
+  Kubernetes version support policy can be found in [official doc](https://kubernetes.io/docs/setup/release/version-skew-policy/).
+:::
+
+Kubecolor can be installed in various ways through a number of package managers.
+If you don't have any of the package managers available, then consider [downloading the binary](#download-binary-via-github-release).
+
+:::note
+  We only add new repositories and ways to install kubecolor on demand.
+  If you feel like your favorite package manager is missing,
+  then please file a [feature request](https://github.com/kubecolor/kubecolor/issues/new?template=feature.yml).
+:::
+
+*The badges below each section show the latest version available for that package repository.
+Green means that it's up-to-date, while red means outdated.*
+
+## Homebrew
 
 [![Homebrew version](https://repology.org/badge/version-for-repo/homebrew/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
 
-```shell
+For MacOS (and some Linux) users using the [Homebrew](https://brew.sh/) package manager.
+
+```bash
 brew install kubecolor
 ```
 
 :::note
 If you previously installed `kubecolor` using the old `brew install kubecolor/tap/kubecolor` command, remove it first:
 
-```shell
+```bash
 brew uninstall kubecolor
 brew untap kubecolor/tap
 brew update
@@ -26,15 +46,17 @@ brew install kubecolor
 
 :::
 
-### Scoop
+## Scoop
 
 ![Scoop Version](https://img.shields.io/scoop/v/kubecolor?label=Scoop%2FMain&color=4cc61f)
+
+For Windows users using the [Scoop](https://scoop.sh/) package manager.
 
 ```sh
 scoop install kubecolor
 ```
 
-### Nix
+## Nix
 
 [![nixpkgs unstable package](https://repology.org/badge/version-for-repo/nix_unstable/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
 
@@ -42,27 +64,31 @@ scoop install kubecolor
 nix-shell -p kubecolor
 ```
 
-### AUR (Arch User Repositories)
+## AUR (Arch User Repositories)
 
 [![AUR package](https://repology.org/badge/version-for-repo/aur/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
+
+For Arch-Linux users (e.g Manjaro, ChimeraOS, EndeavourOS).
 
 ```sh
 yay -Syu kubecolor
 ```
 
-### Termux (Android)
+## Termux (Android)
 
 [![Termux version](https://repology.org/badge/version-for-repo/termux/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
+
+For Android users using the [Termux](https://github.com/termux/termux-app) app.
 
 ```sh
 pkg install kubecolor
 ```
 
-### Download binary via GitHub release
+## Download binary via GitHub release
 
 Go to [Release page](https://github.com/kubecolor/kubecolor/releases) then download the binary which fits your environment.
 
-### Compile from source
+## Compile from source
 
 Requires Go 1.22 (or later)
 
@@ -70,7 +96,7 @@ Requires Go 1.22 (or later)
 go install github.com/kubecolor/kubecolor@latest
 ```
 
-### Docker
+## Docker
 
 Running it via Docker can be nice for just trying out kubecolor:
 
@@ -92,20 +118,3 @@ chmod 644 ~/.kube/config
 ```
 
 :::
-
-
-
-## Usage
-
-kubecolor understands every subcommands and options which are available for `kubectl`. What you have to do is just using `kubecolor`
-instead of `kubectl` like:
-
-```sh
-kubecolor --context=your_context get pods -o json
-```
-
-If you want to make the colorized kubectl default on your shell, just add this line into your shell configuration file:
-
-```sh
-alias kubectl="kubecolor"
-```

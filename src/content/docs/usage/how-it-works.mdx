@@ -1,0 +1,151 @@
+---
+title: How it works
+---
+
+For the curious of how kubecolor behaves, here's a rundown.
+
+Simply put:
+
+1. Parse the arguments to understand which subcommand it is. For example:
+
+   ```bash
+   kubecolor --kubecolor-theme="light" get --pager="less" pods -o wide --watch
+   ```
+
+2. Parse subcommand and kubecolor-specific flags:
+
+   - "subcommand is `get`"
+   - "flag `--output` is set to `wide`"
+   - "flag `--watch` is set to `true`"
+   - "set kubecolor theme to `light`"
+   - "set pager to `less`"
+
+3. Prepare `kubectl` subcommand, filtering out kubecolor-specific flags,
+   turning the command into:
+
+   ```bash
+   kubectl get pods -o wide --watch
+   ```
+
+4. If it's a subcommand that doesn't support colors
+   (e.g `kubectl exec` or kubectl plugins), then just give provide
+   the `kubectl` command with the raw stdin, stdout, and stderr pipes,
+   and then just let it execute.
+
+5. If paging is enabled and it's a subcommand that supports paging,
+   then start up the pager process (e.g `less -RF`) and pipe kubecolor's
+   output through it. Effectively doing this:
+
+   ```bash
+   kubectl get pods -o wide --watch | kubecolor-parsing-logic | less -RF
+   ```
+
+6. Select the correct parser and printer for the associated subcommand.
+   For example `kubectl get` -> "table printer" and
+   `kubectl --help` -> "help printer".
+
+   > Side note: Most of kubecolor's code base is in the parsers.
+   > Parsing arbitrary `kubectl describe` output and
+   > `kubectl get` tables (with potential empty cells) is non-trivial.
+
+7. Let the code fly, continuously parsing and printing as the `kubectl`
+   process is outputting data.
+
+8. Upon exit, reuse `kubectl`'s exit code.
+
+---
+
+Kubecolor does not talk to the Kubernetes API at all.
+The only IO it performs is executing the `kubectl` (and potential pager)
+processes and parsing the results.
+
+If we were to fork kubectl's code base, then we could probably add a lot of
+colorization with deep levels of domain knowledge about the output.
+But that is an unreasonable amount of work.
+
+Instead, with this approach, kubecolor is arguably way more flexible,
+and it also allows us to support the OpenShift `oc` command at the same time.
+
+### Dynamic tty support
+
+When the kubecolor output tty is not standard output, it automatically disables the colorization.
+For example:
+
+```bash
+# Prints with color codes
+kubecolor get pods
+
+# Automatically disables color codes for these two:
+kubecolor get pods > result.txt
+kubecolor get pods | grep Running
+
+# Force kubecolor to print color codes anyways
+kubecolor get pods --force-colors > result.txt
+```
+
+### Dynamic color support
+
+Kubecolor will infer which colors your terminal supports.
+
+For context, practically all terminals supports the basic ["3-bit" or "4-bit" ANSI color set](https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit)
+which includes 8 or 16 different colors (respectively),
+while most support the ["8-bit" ANSI color set](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit)
+which, includes 256 different colors.
+More advanced and modern terminal emulators also support the ["24-bit" color set (aka true color)](https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit),
+which includes the famous 16 777 216 number of colors,
+and are most commonly referred to by their RGB (e.g `rgb(90, 12, 135)`) or HEX (e.g `#5a8487`) representations.
+
+When using kubecolor you can freely configure it to use RGB values in your [theme](#color-theme),
+and depending on your terminal's color support, it will convert the color to the nearest 8-bit or 4-bit color.
+
+The color support can be overridden via the `--force-colors` flag and `KUBECOLOR_FORCE_COLORS` environment variable,
+and it support multiple values: `auto`, `basic`, `256`, `truecolor`, and `none`
+
+```bash
+# As an example, let's set the header color to a 24-bit/truecolor value:
+export KUBECOLOR_THEME_TABLE_HEADER='#5a8487'
+
+# Automatically detect color support,
+# but fallback to basic/4-bit colors if detection fails
+kubecolor get pods --force-colors=auto
+
+# Force colors to basic/4-bit colors,
+# resulting in header color code `␛[37m`
+kubecolor get pods --force-colors=basic
+
+# Force colors to 256/8-bit colors,
+# resulting in header color code `␛[38;5;66m`
+kubecolor get pods --force-colors=256
+
+# Force colors to truecolor/24-bit colors,
+# resulting in header color code `␛[38;2;90;132;135m`
+kubecolor get pods --force-colors=truecolor
+
+# Forcing no colors, i.e. disabling colors
+kubecolor get pods --force-colors=none
+```
+
+When not using the `--force-colors` flag or `KUBECOLOR_FORCE_COLORS` env var,
+the behavior then depends on if the output is a terminal or not:
+
+```bash
+# Same behavior as --force-colors=auto
+kubecolor get pods
+
+# Same behavior as --force-colors=none
+kubecolor get pods > result.txt
+kubecolor get pods | grep Running
+```
+
+How kubecolor figures this out is through some standards using the
+`COLORTERM` environment variable and `TERMINFO` files,
+where we rely on the [github.com/gookit/color package's detection logic](https://github.com/gookit/color/blob/v1.5.4/detect_env.go#L29-L183).
+
+:::caution
+  If running `kubecolor` in a restrictive environment such as a Docker container,
+  then make sure to give it all the hints of your intended color support.
+
+  This can be done by forwarding your `--env COLORTERM` environment variable,
+  or by setting the support level explicitly via the `--force-colors=256` flag
+  or `KUBECOLOR_FORCE_COLORS=256` environment variable.
+:::
