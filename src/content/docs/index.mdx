@@ -16,6 +16,7 @@ hero:
       icon: external
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import SvgCommandOutput from '../../components/svg-command-output.astro';
 
 # Features
@@ -31,8 +32,19 @@ Tired of reading with monochrome in your termnal?
 
 **This is what kubecolor can do for you:**
 
-<SvgCommandOutput name="kubectl-apply.svg" />
+<Tabs>
+  <TabItem label="Dark" icon="moon">
+    <SvgCommandOutput name="kubectl-apply.svg" />
 
-<SvgCommandOutput name="kubectl-get-pods.svg" />
+    <SvgCommandOutput name="kubectl-get-pods.svg" />
 
-<SvgCommandOutput name="kubectl-describe-pod.svg" />
+    <SvgCommandOutput name="kubectl-describe-pod.svg" />
+  </TabItem>
+  <TabItem label="Light" icon="sun">
+    <SvgCommandOutput name="kubectl-apply-light.svg" />
+
+    <SvgCommandOutput name="kubectl-get-pods-light.svg" />
+
+    <SvgCommandOutput name="kubectl-describe-pod-light.svg" />
+  </TabItem>
+</Tabs>
