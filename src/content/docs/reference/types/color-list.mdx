@@ -1,0 +1,25 @@
+---
+title: color[]
+description: Config type "color list"
+---
+
+Similar to the [`color` type](/reference/types/color/), but allows multiple separate colors to be applied.
+Commonly used to allow alternating colors on columns.
+
+The colors are separated by a slash `/`.
+
+Example:
+
+```bash
+export KUBECOLOR_THEME_TABLE_COLUMNS="red/green/blue"
+```
+
+Above represents a `color[]` value of 3 colors, where your columns'
+color would cycle those colors: red, green, blue, red, green, blue, red, etc.
+
+You can of course use any color syntax, to for example have it cycle on
+background color with some style modifiers instead:
+
+```bash
+export KUBECOLOR_THEME_TABLE_COLUMNS="bg=red:underline/bg=green:italic/bg=blue:bold"
+```

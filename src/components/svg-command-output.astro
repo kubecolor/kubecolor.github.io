@@ -1,26 +1,31 @@
 ---
-import Svg from './svg.astro';
+import Svg from "./svg.astro";
 
 export interface Props {
-  name: string;
+    name: string;
 }
 
 const { name } = Astro.props as Props;
 ---
 
 <div class="command-output-container">
-  <Svg {name} class:list="command-output" />
+    <Svg {name} class:list="command-output" />
 </div>
 
 <style>
-  .command-output-container {
-    overflow-x: auto;
-    border-radius: 8px;
-  }
+    .command-output-container {
+        overflow-x: auto;
+        border-radius: 8px;
+    }
 
-  svg.command-output {
-    max-width: none;
-    width: revert-layer;
-    height: revert-layer;
-  }
+    svg.command-output {
+        max-width: none;
+        width: revert-layer;
+        height: revert-layer;
+    }
+
+    /* Change the yellow as it's too bright in light-theme images */
+    svg :global(tspan[fill="#D3E561"]) {
+        fill: #b99405;
+    }
 </style>

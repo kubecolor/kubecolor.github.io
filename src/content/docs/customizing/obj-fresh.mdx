@@ -1,0 +1,33 @@
+---
+title: Fresh objects
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import SvgCommandOutput from '../../../components/svg-command-output.astro';
+
+When you want to figure out which object are recently created the fresh ones
+are colored green. It only works with `get` subcommand.
+
+You can customize threshold level by using environment variable `KUBECOLOR_OBJ_FRESH`
+or `~/.kube/color.yaml` config field `objFreshThreshold`
+with value format [time.Duration](https://golang.org/pkg/time/#ParseDuration).
+
+<Tabs syncKey="config">
+  <TabItem label="Environment variables">
+  ```bash
+  export KUBECOLOR_OBJ_FRESH="10h"
+  ```
+  </TabItem>
+  <TabItem label="Config file">
+  ```yaml
+  # ~/.kube/color.yaml
+  objFreshThreshold: 1h
+  ```
+  </TabItem>
+</Tabs>
+
+Demo:
+
+<SvgCommandOutput name="object-fresh.svg" />
+
+Default value is `0s`, meaning the feature is disabled.
