@@ -42,11 +42,11 @@ theme:
     number: magenta # (color) used when the value is a number (fallback to theme.base.primary)
     "null": gray:italic # (color) used when the value is null, nil, or none (fallback to theme.base.muted)
     quantity: magenta # (color) used when the value is a quantity, e.g "100m" or "5Gi" (fallback to theme.data.number)
-    duration: none # (color) used when the value is a duration, e.g "12m" or "1d12h"
+    duration:  # (color) used when the value is a duration, e.g "12m" or "1d12h"
     durationfresh: green # (color) color used when the time value is under a certain delay (fallback to theme.base.success)
     ratio:
       zero: gray:italic # (color) used for "0/0" (fallback to theme.base.muted)
-      equal: none # (color) used for "n/n", e.g "1/1"
+      equal:  # (color) used for "n/n", e.g "1/1"
       unequal: yellow # (color) used for "n/m", e.g "0/1" (fallback to theme.base.warning)
   status:
     success: green # (color) used in status keywords, e.g "Running", "Ready" (fallback to theme.base.success)
@@ -58,19 +58,42 @@ theme:
   stderr:
     default: white # (color) default when no specific mapping is found for the output line (fallback to theme.base.info)
     error: red # (color) e.g when text contains "error" (fallback to theme.base.danger)
-  describe:
-    key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
   apply:
     created: green # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
     configured: yellow # (color) used on "deployment.apps/bar configured" (fallback to theme.base.warning)
     unchanged: magenta # (color) used on "deployment.apps/quux unchanged" (fallback to theme.base.primary)
-    dryrun: cyan # (color) used on "deployment.apps/quux created (dry-run)" (fallback to theme.base.secondary)
-    fallback: green # (color) used when "kubectl apply" outputs unknown format (fallback to theme.base.success)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.base.secondary)
+    fallback: green # (color) used when outputs unknown format (fallback to theme.base.success)
+  create:
+    created: green # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: green # (color) used when outputs unknown format (fallback to theme.base.success)
+  delete:
+    deleted: red # (color) used on "deployment.apps "nginx" deleted" (fallback to theme.base.danger)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: red # (color) used when outputs unknown format (fallback to theme.base.danger)
+  describe:
+    key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
   explain:
     key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
     required: red # (color) used on the trailing "-required-" string (fallback to theme.base.danger)
+  expose:
+    exposed: magenta # (color) used on "deployment.apps/foo created" (fallback to theme.base.primary)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: magenta # (color) used when outputs unknown format (fallback to theme.base.primary)
   options:
     flag: cyan # (color) e.g "--kubeconfig" (fallback to theme.base.secondary)
+  patch:
+    patched: yellow # (color) used on "deployment.apps/foo patched" (fallback to theme.base.warning)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: yellow # (color) used when outputs unknown format (fallback to theme.base.warning)
+  rollout:
+    rolledback: yellow # (color) used on "deployment.apps/foo rolled back" (fallback to theme.base.warning)
+    paused: magenta # (color) used on "deployment.apps/foo paused" (fallback to theme.base.primary)
+    resumed: cyan # (color) used on "deployment.apps/foo resumed" (fallback to theme.base.secondary)
+    restarted: yellow # (color) used on "deployment.apps/foo restarted" (fallback to theme.base.warning)
+    dryrun: cyan # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: yellow # (color) used when outputs unknown format (fallback to theme.base.warning)
   version:
     key: hicyan / cyan # (color[]) used on the key (fallback to theme.base.key)
   help:
@@ -79,6 +102,20 @@ theme:
     flagdesc: white # (color) Flag descripion under "Options:" heading (fallback to theme.base.info)
     url: cyan # (color) e.g `[https://example.com]` (fallback to theme.base.secondary)
     text: white # (color) Fallback text color (fallback to theme.base.info)
+  logs:
+    key: hicyan / cyan # (color[]) (fallback to theme.data.key)
+    quotedstring: hiyellow # (color) Used on quoted strings that are not part of a `key="value"` (fallback to theme.data.string)
+    date: gray:italic # (color) (fallback to theme.base.muted)
+    sourceref: gray:italic # (color) (fallback to theme.base.muted)
+    guid: gray:italic # (color) (fallback to theme.base.muted)
+    severity:
+      trace: gray:italic # (color) (fallback to theme.base.muted)
+      debug: gray:italic # (color) (fallback to theme.base.muted)
+      info: green # (color) (fallback to theme.base.success)
+      warn: yellow # (color) (fallback to theme.base.warning)
+      error: red # (color) (fallback to theme.base.danger)
+      fatal: red # (color) (fallback to theme.base.danger)
+      panic: red # (color) (fallback to theme.base.danger)
 ```
 
 You can also override the path of the config file using the `KUBECOLOR_CONFIG`
