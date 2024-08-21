@@ -56,8 +56,10 @@ theme:
     header: bold          # (color) used on table headers (fallback to theme.base.info)
     columns: white / cyan # (color[]) used on table columns when no other coloring applies such as status or duration coloring. The multiple colors are cycled based on column ID, from left to right. (fallback to [theme.base.info / theme.base.secondary])
   stderr:
-    default: white # (color) default when no specific mapping is found for the output line (fallback to theme.base.info)
-    error: red     # (color) e.g when text contains "error" (fallback to theme.base.danger)
+    default: white               # (color) default when no specific mapping is found for the output line (fallback to theme.base.info)
+    error: red                   # (color) e.g when text contains "error" (fallback to theme.base.danger)
+    noneFound: gray:italic       # (color) used on table output like "No resources found" (fallback to theme.data.null)
+    noneFoundNamespace: hiyellow # (color) used on the namespace name of "No resources found in my-ns namespace" (fallback to theme.data.string)
   apply:
     created: green     # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
     configured: yellow # (color) used on "deployment.apps/bar configured" (fallback to theme.base.warning)
@@ -74,6 +76,13 @@ theme:
     fallback: red # (color) used when outputs unknown format (fallback to theme.base.danger)
   describe:
     key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
+  drain:
+    cordoned: magenta        # (color) used on "node/my-worker-node-01 cordoned" (fallback to theme.base.primary)
+    evictingPod: gray:italic # (color) used on "evicting pod my-namespace/my-pod" (fallback to theme.base.muted)
+    evicted: yellow          # (color) used on "pod/my-pod evicted" (fallback to theme.base.warning)
+    drained: green           # (color) used on "node/my-worker-node-01 drained" (fallback to theme.base.success)
+    dryRun: cyan             # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: yellow         # (color) used when outputs unknown format (fallback to theme.base.warning)
   explain:
     key: hicyan / cyan # (color[]) used on keys. The multiple colors are cycled based on indentation. (fallback to theme.base.key)
     required: red      # (color) used on the trailing "-required-" string (fallback to theme.base.danger)
@@ -94,6 +103,14 @@ theme:
     restarted: yellow  # (color) used on "deployment.apps/foo restarted" (fallback to theme.base.warning)
     dryRun: cyan       # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
     fallback: yellow   # (color) used when outputs unknown format (fallback to theme.base.warning)
+  scale:
+    scaled: yellow   # (color) used on "deployment.apps/foo scaled" (fallback to theme.base.warning)
+    dryRun: cyan     # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: yellow # (color) used when outputs unknown format (fallback to theme.base.warning)
+  uncordon:
+    uncordoned: cyan # (color) used on "node/my-worker-node-01 uncordoned" (fallback to theme.base.secondary)
+    dryRun: cyan     # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.apply.dryrun)
+    fallback: yellow # (color) used when outputs unknown format (fallback to theme.base.warning)
   version:
     key: hicyan / cyan # (color[]) used on the key (fallback to theme.base.key)
   help:
