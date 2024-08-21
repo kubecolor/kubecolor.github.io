@@ -56,10 +56,10 @@ theme:
     header: bold          # (color) used on table headers (fallback to theme.base.info)
     columns: white / cyan # (color[]) used on table columns when no other coloring applies such as status or duration coloring. The multiple colors are cycled based on column ID, from left to right. (fallback to [theme.base.info / theme.base.secondary])
   stderr:
-    default: white               # (color) default when no specific mapping is found for the output line (fallback to theme.base.info)
     error: red                   # (color) e.g when text contains "error" (fallback to theme.base.danger)
     noneFound: gray:italic       # (color) used on table output like "No resources found" (fallback to theme.data.null)
     noneFoundNamespace: hiyellow # (color) used on the namespace name of "No resources found in my-ns namespace" (fallback to theme.data.string)
+    default:                     # (color) *deprecated: this field is no longer used (since v0.4.0)*
   apply:
     created: green     # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
     configured: yellow # (color) used on "deployment.apps/bar configured" (fallback to theme.base.warning)
