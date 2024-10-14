@@ -104,6 +104,24 @@ Running it via Docker can be nice for just trying out kubecolor:
 docker run --rm -it -v $HOME/.kube:/home/nonroot/.kube:ro ghcr.io/kubecolor/kubecolor get pods
 ```
 
+== asdf
+
+For users using the [asdf](https://github.com/asdf-vm/asdf) package manager.
+
+```sh
+asdf plugin-add kubecolor https://github.com/dex4er/asdf-kubecolor.git
+asdf install kubecolor latest
+asdf global kubecolor latest
+```
+
+== mise
+
+For users using the [mise](https://github.com/jdx/mise) package manager.
+
+```sh
+mise use kubecolor
+```
+
 :::note
 If you're getting the error <code>permission denied</code>  (common in environments like WSL):
 
