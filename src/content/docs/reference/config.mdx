@@ -20,13 +20,13 @@ pager: # the command to use as pager; default uses $PAGER, less, or more
 # Color theme options
 theme:
   base:
+    danger: red        # (color) general color for when things are bad
     info: white        # (color) general color for when things are informational
+    muted: gray:italic # (color) general color for when things are less relevant
     primary: magenta   # (color) general color for when things are focus
     secondary: cyan    # (color) general color for when things are secondary focus
     success: green     # (color) general color for when things are good
     warning: yellow    # (color) general color for when things are wrong
-    danger: red        # (color) general color for when things are bad
-    muted: gray:italic # (color) general color for when things are less relevant
     key: hicyan / cyan # (color[]) general color for keys (fallback to [theme.base.secondary])
   default: green # (color) default when no specific mapping is found for the command
   shell:
@@ -133,6 +133,10 @@ theme:
       error: red         # (color) (fallback to theme.base.danger)
       fatal: red         # (color) (fallback to theme.base.danger)
       panic: red         # (color) (fallback to theme.base.danger)
+  diff:
+    added: green           # (color) used on added lines (fallback to theme.base.success)
+    removed: red           # (color) used on removed lines (fallback to theme.base.danger)
+    unchanged: gray:italic # (color) used on unchanged lines (fallback to theme.base.muted)
 ```
 
 You can also override the path of the config file using the `KUBECOLOR_CONFIG`
