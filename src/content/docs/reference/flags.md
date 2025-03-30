@@ -19,14 +19,72 @@ Then kubecolor will translate that to the following kubectl invokation:
 kubectl get pods --namespace=kube-system
 ```
 
+:::caution
+  Due to techinical limitations the kubecolor command-line flag values must be
+  specified in the same string as `--flag=value`.
+
+  ```bash
+  # good:
+  kubecolor --kubecolor-stdin=foo
+  kubecolor --pager=foo
+
+  # bad:
+  kubecolor --kubecolor-stdin foo
+  kubecolor --pager foo
+  ```
+:::
+
 ## `--kubecolor-version`
 
 Prints the version of kubecolor (not kubectl one).
+
+## `--kubecolor-stdin`
+
+Don't run `kubectl` but instead only parse and print. Works as a sort of
+"dry run" for kubecolor coloring. The arguments for the kubecolor command
+(such as `get pods` or `describe pod`) still matters as they tell kubecolor
+how to parse and colorize the output.
+
+By default if you only supply the `--kubecolor-stdin` flag with no value then
+it will read from stdin. Example:
+
+```bash
+kubectl get pods > results.txt
+cat results.txt | kubecolor get pods --kubecolor-stdin
+```
+
+Alternatively you can provide a path from which kubecolor will read from that
+file instead of from stdin:
+
+```bash
+kubectl get pods > results.txt
+kubecolor get pods --kubecolor-stdin=results.txt
+```
+
+You can use this feature to colorize any arbitrary output, such as using
+kubecolor's log parsing and colorizing on Docker logs:
+
+```bash
+docker logs my-container | kubecolor logs --kubecolor-stdin
+```
 
 ## `--light-background`
 
 When your terminal's background color is something light (e.g white), default color preset might look too bright and not readable.
 If so, specify `--light-background` as a command line argument. kubecolor will use a color preset for light-background environment.
+
+This is an alias for `--kubecolor-theme=light`
+
+## `--kubecolor-theme`
+
+Sets the kubecolor color theme preset. You must provide a value for this flag,
+like so:
+
+```bash
+kubecolor get pods --kubecolor-theme=dark
+```
+
+See: [Customizing / Color themes](/customizing/themes/)
 
 ## `--force-colors`
 
@@ -36,7 +94,7 @@ For example, when you want to pass kubecolor result to grep (e.g `kubecolor get 
 It supports multiple values in the form of `--force-colors=...`.
 Just specifying `--force-colors` is the same as `--force-colors=auto`.
 
-See [Dynamic color support](#dynamic-color-support) section for all possible values.
+See: [Usage / How it works # Dynamic color support](/usage/how-it-works/#dynamic-color-support)
 
 ## `--plain`
 
