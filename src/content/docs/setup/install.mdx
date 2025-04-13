@@ -86,36 +86,45 @@ Applies to: Fedora, CentOS, RHEL, openSUSE, AlmaLinux, Rocky Linux
 
 <Tabs>
   <TabItem label="dnf5">
-    DNF5 is found in Fedora 41 and later. Run `dnf --version` to see which version you have.
-
     ```bash
     sudo dnf install dnf5-plugins
     sudo dnf config-manager addrepo --from-repofile https://kubecolor.github.io/packages/rpm/kubecolor.repo
     sudo dnf install kubecolor
     ```
 
+    DNF5 is found in Fedora 41 and later. Run `dnf --version` to see which version you have.
+
     OpenPGP key fingerprint: `5BC8E65EEE2DB9CBCD44A91762ACB02733C915F1`
   </TabItem>
   <TabItem label="dnf4">
-    DNF5 is found in Fedora 40 and earlier. Run `dnf --version` to see which version you have.
-
     ```bash
     sudo dnf install 'dnf-command(config-manager)'
     sudo dnf config-manager --add-repo https://kubecolor.github.io/packages/rpm/kubecolor.repo
     sudo dnf install kubecolor
     ```
 
+    DNF5 is found in Fedora 40 and earlier. Run `dnf --version` to see which version you have.
+
     GPG key fingerprint: `5BC8 E65E EE2D B9CB CD44 A917 62AC B027 33C9 15F1`
   </TabItem>
   <TabItem label="zypper">
-    Zypper is found in openSUSE
-
     ```bash
     sudo zypper addrepo https://kubecolor.github.io/packages/rpm/kubecolor.repo
     sudo zypper install kubecolor
     ```
 
+    Zypper is found in openSUSE
+
     Key fingerprint: `5BC8 E65E EE2D B9CB CD44 A917 62AC B027 33C9 15F1`
+  </TabItem>
+  <TabItem label="yum">
+    ```bash
+    type -p yum-config-manager >/dev/null || sudo yum install yum-utils
+    sudo yum-config-manager --add-repo https://kubecolor.github.io/packages/rpm/kubecolor.repo
+    sudo yum install kubecolor
+    ```
+
+    GPG key fingerprint: `5BC8 E65E EE2D B9CB CD44 A917 62AC B027 33C9 15F1`
   </TabItem>
 </Tabs>
 
