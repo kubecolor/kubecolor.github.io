@@ -9,7 +9,7 @@ Simply put:
 1. Parse the arguments to understand which subcommand it is. For example:
 
    ```bash
-   kubecolor --kubecolor-theme="light" get --pager="less" pods -o wide --watch
+   kubecolor --kubecolor-theme="light" get --pager="less -RF" pods -o wide --watch
    ```
 
 2. Parse subcommand and kubecolor-specific flags:
@@ -18,7 +18,7 @@ Simply put:
    - "flag `--output` is set to `wide`"
    - "flag `--watch` is set to `true`"
    - "set kubecolor theme to `light`"
-   - "set pager to `less`"
+   - "set pager to `less -RF`"
 
 3. Prepare `kubectl` subcommand, filtering out kubecolor-specific flags,
    turning the command into:
