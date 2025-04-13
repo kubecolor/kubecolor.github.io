@@ -64,6 +64,7 @@ theme:
     created: green     # (color) used on "deployment.apps/foo created" (fallback to theme.base.success)
     configured: yellow # (color) used on "deployment.apps/bar configured" (fallback to theme.base.warning)
     unchanged: magenta # (color) used on "deployment.apps/quux unchanged" (fallback to theme.base.primary)
+    serverside: yellow # (color) used on "deployment.apps/quux serverside-applied" (fallback to theme.base.warning)
     dryRun: cyan       # (color) used on "(dry run)" and "(server dry run)" (fallback to theme.base.secondary)
     fallback: green    # (color) used when outputs unknown format (fallback to theme.base.success)
   create:
@@ -143,5 +144,9 @@ You can also override the path of the config file using the `KUBECOLOR_CONFIG`
 environment variable:
 
 ```bash
+# Default
+export KUBECOLOR_CONFIG="$HOME/.kube/color.yaml"
+
+# But you can override it to someplace else
 export KUBECOLOR_CONFIG="$HOME/.config/kubecolor.yaml"
 ```

@@ -3,16 +3,44 @@ title: Environment variables
 description: Variables that are supported by kubecolor
 ---
 
+## `KUBECOLOR_CONFIG`
+
+Override the path of the config file.
+
+```bash
+export KUBECOLOR_CONFIG="$HOME/.kube/color.yaml"        # default
+export KUBECOLOR_CONFIG="$HOME/.config/kubecolor.yaml"
+```
+
+See: [Reference / Config file](/reference/config/)
+
+## `KUBECOLOR_KUBECTL`
+
+Changes which `kubectl` command to run.
+
+```bash
+export KUBECOLOR_KUBECTL=kubectl      # default
+export KUBECOLOR_KUBECTL=kubectl1.19
+export KUBECOLOR_KUBECTL=oc           # openshift
+```
+
+See: [Customizing / Custom kubectl or OpenShift CLI](/customizing/custom-kubectl/)
+
 ## `KUBECOLOR_OBJ_FRESH`
 
 When setting the variable `KUBECOLOR_OBJ_FRESH` to a duration, you can change the color of the object depending on its creation time.
 
-Please see [Specify object fresh age threshold](#specify-object-fresh-age-threshold)
+```bash
+export KUBECOLOR_OBJ_FRESH="0"   # default
+export KUBECOLOR_OBJ_FRESH="10h"
+```
+
+See: [Customizing / Fresh objects](/customizing/obj-fresh/)
 
 ## `KUBECOLOR_FORCE_COLORS`
 
 In addition to forcing colors with `--force-colors`, you can also do so by setting the environment variable `KUBECOLOR_FORCE_COLORS=auto`.
-See [Dynamic color support](#dynamic-color-support) section for all possible values.
+See [Dynamic color support](/usage/how-it-works/#dynamic-color-support) section for all possible values.
 
 You can use this environment variable to colorize output when you invoke kubecolor in the `watch` command (e.g. `watch kubecolor get pods`).
 Set the following alias:
@@ -27,9 +55,64 @@ watch kubecolor get pods
 
 Be sure to include the space at the end to enable alias expansion (without this additional space, the command `watch kgp` would fail, for example).
 
-## `KUBECOLOR_LIGHT_BACKGROUND`
+## `NO_COLOR`
 
-In addition to use the light color preset with `--light-background`, you can also do so by setting the environment variable `KUBECOLOR_LIGHT_BACKGROUND=true`.
+Coloring is disabled if `NO_COLOR` is set to any non-empty value.
+This is equivalent to the `--plain` or `--force-colors=none` command-line flags.
+
+```bash
+# These disable coloring
+export NO_COLOR=1
+export NO_COLOR="no"
+export NO_COLOR="yes"
+export NO_COLOR="Lorem ipsum"
+
+# These revert to kubecolor's default coloring logic
+export NO_COLOR=""
+unset NO_COLOR
+```
+
+## `KUBECOLOR_PRESET`
+
+Changes which color theme kubecolor uses.
+Defaults to `dark`
+
+```bash
+export KUBECOLOR_PRESET="dark"            # default
+export KUBECOLOR_PRESET="light"
+export KUBECOLOR_PRESET="protanopia-dark"
+```
+
+See: [Customizing / Color themes](/customizing/themes/#switching-to-a-different-color-theme)
+
+## `KUBECOLOR_PAGING`
+
+Whether to pipe supported subcommands to a pager.
+Valid values: `auto` or `never`.
+Defaults to `never`.
+
+```bash
+export KUBECOLOR_PAGING="auto"
+export KUBECOLOR_PAGING="never" # default
+```
+
+## `KUBECOLOR_PAGER`
+
+Sets which pager application to use.
+Defaults to `$PAGER`, `less`, or `more` (depending on which are available)
+
+```bash
+export KUBECOLOR_PAGER="less"
+```
+
+## `PAGER`
+
+Sets which pager application to use. Used as a default if `KUBECOLOR_PAGER`
+environment variable, the `pager` config, or `--pager` flag are unset.
+
+```bash
+export PAGER="less"
+```
 
 ## Theme variables
 
@@ -80,6 +163,7 @@ In addition to use the light color preset with `--light-background`, you can als
 | `KUBECOLOR_THEME_APPLY_CREATED`             | color   | used on "deployment.apps/foo created"<br/>*(fallback to `KUBECOLOR_THEME_BASE_SUCCESS`)*                                                                                                                                                            | `green`
 | `KUBECOLOR_THEME_APPLY_CONFIGURED`          | color   | used on "deployment.apps/bar configured"<br/>*(fallback to `KUBECOLOR_THEME_BASE_WARNING`)*                                                                                                                                                         | `yellow`
 | `KUBECOLOR_THEME_APPLY_UNCHANGED`           | color   | used on "deployment.apps/quux unchanged"<br/>*(fallback to `KUBECOLOR_THEME_BASE_PRIMARY`)*                                                                                                                                                         | `magenta`
+| `KUBECOLOR_THEME_APPLY_SERVERSIDE`          | color   | used on "deployment.apps/quux serverside-applied"<br/>*(fallback to `KUBECOLOR_THEME_BASE_WARNING`)*                                                                                                                                                | `yellow`
 | `KUBECOLOR_THEME_APPLY_DRYRUN`              | color   | used on "(dry run)" and "(server dry run)"<br/>*(fallback to `KUBECOLOR_THEME_BASE_SECONDARY`)*                                                                                                                                                     | `cyan`
 | `KUBECOLOR_THEME_APPLY_FALLBACK`            | color   | used when outputs unknown format<br/>*(fallback to `KUBECOLOR_THEME_BASE_SUCCESS`)*                                                                                                                                                                 | `green`
 |                                             |         |                                                                                                                                                                                                                                                     |
@@ -153,3 +237,33 @@ In addition to use the light color preset with `--light-background`, you can als
 | `KUBECOLOR_THEME_DIFF_ADDED`                | color   | used on added lines<br/>*(fallback to `KUBECOLOR_THEME_BASE_SUCCESS`)*                                                                                                                                                                              | `green`
 | `KUBECOLOR_THEME_DIFF_REMOVED`              | color   | used on removed lines<br/>*(fallback to `KUBECOLOR_THEME_BASE_DANGER`)*                                                                                                                                                                             | `red`
 | `KUBECOLOR_THEME_DIFF_UNCHANGED`            | color   | used on unchanged lines<br/>*(fallback to `KUBECOLOR_THEME_BASE_MUTED`)*                                                                                                                                                                            | `gray:italic`
+
+## Deprecated flags
+
+:::caution
+  Deprecated: these environment variables are kept for backwards compatibility and
+  but may be removed in a future version.
+:::
+
+### `KUBECTL_COMMAND`
+
+Changes which `kubectl` command to run.
+
+```bash
+export KUBECTL_COMMAND=kubectl      # default
+export KUBECTL_COMMAND=kubectl1.19
+export KUBECTL_COMMAND=oc           # openshift
+```
+
+Please use `KUBECOLOR_KUBECTL=kubectl` instead.
+
+### `KUBECOLOR_LIGHT_BACKGROUND`
+
+In addition to use the light color preset with `--light-background`.
+Defaults to `false`
+
+```bash
+export KUBECOLOR_LIGHT_BACKGROUND=true
+```
+
+Please use `KUBECOLOR_PRESET=light` instead.

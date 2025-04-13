@@ -11,7 +11,7 @@ internally in kubecolor. For example, when you want to use a versioned-kubectl
 <Tabs syncKey="config">
   <TabItem label="Environment variables">
   ```bash
-  export KUBECTL_COMMAND="kubectl.1.19"
+  export KUBECOLOR_KUBECTL="kubectl.1.19"
   ```
   </TabItem>
   <TabItem label="Config file">
@@ -31,7 +31,7 @@ This feature can be used to use kubecolor with the OpenShift CLI (`oc`) as well:
 <Tabs syncKey="config">
   <TabItem label="Environment variables">
   ```bash
-  export KUBECTL_COMMAND="oc"
+  export KUBECOLOR_KUBECTL="oc"
   ```
   </TabItem>
   <TabItem label="Config file">
@@ -54,5 +54,5 @@ to also set the environment variable:
 
 ```bash
 # ~/.bashrc
-alias oc="env KUBECTL_COMMAND=oc kubecolor"
+alias oc="env KUBECOLOR_KUBECTL=oc kubecolor"
 ```

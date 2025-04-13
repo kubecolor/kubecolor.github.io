@@ -5,24 +5,23 @@ sidebar:
   order: 1
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Kubecolor can be installed in various ways through a number of package managers.
+If you don't have any of the package managers available, then consider [downloading the binary](#download-binary-via-github-release).
+
+*The badges below each section show the latest version available for that package repository.
+Green means that it's up-to-date, while red means outdated.*
+
+## Prerequisites
+
 As a prerequisite, you must first [install kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
+Some packages listed below will install it for you. But some won't.
 
 :::caution
   Because kubecolor internally calls `kubectl` command, if you are using unsupported kubectl version, it's also not supported by kubecolor.
   Kubernetes version support policy can be found in [official doc](https://kubernetes.io/docs/setup/release/version-skew-policy/).
 :::
-
-Kubecolor can be installed in various ways through a number of package managers.
-If you don't have any of the package managers available, then consider [downloading the binary](#download-binary-via-github-release).
-
-:::note
-  We only add new repositories and ways to install kubecolor on demand.
-  If you feel like your favorite package manager is missing,
-  then please file a [feature request](https://github.com/kubecolor/kubecolor/issues/new?template=feature.yml).
-:::
-
-*The badges below each section show the latest version available for that package repository.
-Green means that it's up-to-date, while red means outdated.*
 
 ## Homebrew
 
@@ -56,13 +55,40 @@ For Windows users using the [Scoop](https://scoop.sh/) package manager.
 scoop install kubecolor
 ```
 
+## winget
+
+[![winget package](https://repology.org/badge/version-for-repo/winget/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
+
+For Windows users using the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+package manager.
+
+```sh
+winget install --id Kubecolor.kubecolor
+```
+
 ## Nix
 
 [![nixpkgs unstable package](https://repology.org/badge/version-for-repo/nix_unstable/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
 
-```sh
-nix-shell -p kubecolor
-```
+<Tabs>
+  <TabItem label="nix-shell">
+    ```sh
+    nix-shell -p kubecolor
+    ```
+  </TabItem>
+  <TabItem label="nix shell">
+    ```sh
+    nix shell nixpkgs#kubecolor
+    ```
+  </TabItem>
+  <TabItem label="flox">
+    [Flox](https://flox.dev/) is a package manager built on top of Nix.
+
+    ```sh
+    flox install kubecolor
+    ```
+  </TabItem>
+</Tabs>
 
 ## AUR (Arch User Repositories)
 
@@ -92,12 +118,14 @@ For users using the [asdf](https://github.com/asdf-vm/asdf) package manager.
 asdf install kubecolor latest
 ```
 
-## mise
+## aqua
 
-For users using the [mise](https://github.com/jdx/mise) package manager.
+[![aqua version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fgithub.com%2Faquaproj%2Faqua-registry%2Fraw%2F8c9f102b42aa88fde6cc649269b57875556f9c9c%2Fpkgs%2Fkubecolor%2Fkubecolor%2Fpkg.yaml&query=%24.packages%5B0%5D.name&label=aqua&color=4cc61f)](https://github.com/aquaproj/aqua-registry/blob/main/pkgs/kubecolor/kubecolor/pkg.yaml)
+
+For users using the [aqua](https://aquaproj.github.io/) package manager.
 
 ```sh
-mise use kubecolor
+aqua g -i kubecolor/kubecolor
 ```
 
 ## Download binary via GitHub release
@@ -117,7 +145,7 @@ go install github.com/kubecolor/kubecolor@latest
 Running it via Docker can be nice for just trying out kubecolor:
 
 ```sh
-docker run --rm -it -v $HOME/.kube:/home/nonroot/.kube:ro ghcr.io/kubecolor/kubecolor get pods
+docker run --rm -it -v $HOME/.kube:/home/nonroot/.kube:ro --env COLORTERM ghcr.io/kubecolor/kubecolor get pods
 ```
 
 :::note
@@ -134,3 +162,19 @@ chmod 644 ~/.kube/config
 ```
 
 :::
+
+## Debian/Ubuntu
+
+[![Debian version](https://repology.org/badge/version-for-repo/debian_unstable/kubecolor.svg)](https://repology.org/project/kubecolor/versions)
+
+The Debian package (and its dervivatives like Ubuntu, elementary OS,
+Linux Mint, Pop!_OS, Zorin OS, etc) is very outdated and as such is
+highly discouraged.
+
+Please use a different mode for installing kubecolor.
+
+## Missing a repository?
+
+We only add new repositories and ways to install kubecolor on demand.
+If you feel like your favorite package manager is missing,
+then please file a [feature request](https://github.com/kubecolor/kubecolor/issues/new?template=feature.yml).
