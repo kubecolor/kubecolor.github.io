@@ -10,9 +10,18 @@ export default defineConfig({
       logo: {
         src: "./src/assets/kubecolor_logo.svg",
       },
-      social: {
-        github: "https://github.com/kubecolor/kubecolor",
-      },
+      social: [
+        {
+          icon: "github",
+          href: "https://github.com/kubecolor/kubecolor",
+          label: "Source code on GitHub",
+        },
+        {
+          icon: "slack",
+          href: "https://cloud-native.slack.com/archives/C06A9JNNHAR",
+          label: "#kubecolor channel on CNCF Slack",
+        },
+      ],
       sidebar: [
         {
           label: "Usage",
