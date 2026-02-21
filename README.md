@@ -15,7 +15,7 @@ Check markup reference in [Starlight Docs](https://starlight.astro.build/guides/
 ## Dev
 
 ```bash
-cd docs
+npm install
 npm run dev
 ```
 
