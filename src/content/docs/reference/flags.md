@@ -13,14 +13,14 @@ As an example, if you run:
 kubecolor get pods --force-colors --namespace=kube-system
 ```
 
-Then kubecolor will translate that to the following kubectl invokation:
+Then kubecolor will translate that to the following kubectl invocation:
 
 ```bash
 kubectl get pods --namespace=kube-system
 ```
 
 :::caution
-  Due to techinical limitations the kubecolor command-line flag values must be
+  Due to technical limitations the kubecolor command-line flag values must be
   specified in the same string as `--flag=value`.
 
   ```bash

@@ -152,6 +152,16 @@ theme:
     # used when outputs unknown format
     fallback: !color # default = $theme.base.success
 
+  annotate:
+    # used for all messages, as "kubectl annotate" always prints "annotated"
+    annotated: !color # default = $theme.base.success
+
+    # used on "(dry run)" and "(server dry run)"
+    dryRun: !color # default = $theme.apply.dryrun
+
+    # used when outputs unknown format
+    fallback: !color # default = $theme.base.warning
+
   create:
     # used on "deployment.apps/foo created"
     created: !color # default = $theme.base.success
@@ -175,6 +185,16 @@ theme:
   describe:
     # used on keys. The multiple colors are cycled based on indentation.
     key: !color-list # default = $theme.base.key
+
+  diff:
+    # used on added lines
+    added: !color # default = $theme.base.success
+
+    # used on removed lines
+    removed: !color # default = $theme.base.danger
+
+    # used on unchanged lines
+    unchanged: !color # default = $theme.base.muted
 
   drain:
     # used on "node/my-worker-node-01 cordoned"
@@ -211,6 +231,65 @@ theme:
 
     # used when outputs unknown format
     fallback: !color # default = $theme.base.primary
+
+  help:
+    # e.g "Examples:" or "Options:"
+    header: !color # default = $theme.table.header
+
+    # e.g "--kubeconfig"
+    flag: !color # default = $theme.base.secondary
+
+    # Flag descripion under "Options:" heading
+    flagDesc: !color # default = $theme.base.info
+
+    # e.g `[https://example.com]`
+    url: !color # default = $theme.base.secondary
+
+    # Fallback text color
+    text: !color # default = $theme.base.info
+
+  label:
+    # used when label was added
+    labeled: !color # default = $theme.base.success
+
+    # used when label was removed
+    unlabeled: !color # default = $theme.base.warning
+
+    # used when label was already set
+    notLabeled: !color # default = $theme.base.muted
+
+    # used on "(dry run)" and "(server dry run)"
+    dryRun: !color # default = $theme.apply.dryrun
+
+    # used when outputs unknown format
+    fallback: !color # default = $theme.base.warning
+
+  logs:
+    key: !color-list # default = $theme.data.key
+
+    # Used on quoted strings that are not part of a `key="value"`
+    quotedString: !color # default = $theme.data.string
+
+    date: !color # default = $theme.base.muted
+
+    sourceRef: !color # default = $theme.base.muted
+
+    guid: !color # default = $theme.base.muted
+
+    severity:
+      trace: !color # default = $theme.base.muted
+
+      debug: !color # default = $theme.base.muted
+
+      info: !color # default = $theme.base.success
+
+      warn: !color # default = $theme.base.warning
+
+      error: !color # default = $theme.base.danger
+
+      fatal: !color # default = $theme.base.danger
+
+      panic: !color # default = $theme.base.danger
 
   options:
     # e.g "--kubeconfig"
@@ -268,59 +347,6 @@ theme:
   version:
     # used on the key
     key: !color-list # default = $theme.base.key
-
-  help:
-    # e.g "Examples:" or "Options:"
-    header: !color # default = $theme.table.header
-
-    # e.g "--kubeconfig"
-    flag: !color # default = $theme.base.secondary
-
-    # Flag descripion under "Options:" heading
-    flagDesc: !color # default = $theme.base.info
-
-    # e.g `[https://example.com]`
-    url: !color # default = $theme.base.secondary
-
-    # Fallback text color
-    text: !color # default = $theme.base.info
-
-  logs:
-    key: !color-list # default = $theme.data.key
-
-    # Used on quoted strings that are not part of a `key="value"`
-    quotedString: !color # default = $theme.data.string
-
-    date: !color # default = $theme.base.muted
-
-    sourceRef: !color # default = $theme.base.muted
-
-    guid: !color # default = $theme.base.muted
-
-    severity:
-      trace: !color # default = $theme.base.muted
-
-      debug: !color # default = $theme.base.muted
-
-      info: !color # default = $theme.base.success
-
-      warn: !color # default = $theme.base.warning
-
-      error: !color # default = $theme.base.danger
-
-      fatal: !color # default = $theme.base.danger
-
-      panic: !color # default = $theme.base.danger
-
-  diff:
-    # used on added lines
-    added: !color # default = $theme.base.success
-
-    # used on removed lines
-    removed: !color # default = $theme.base.danger
-
-    # used on unchanged lines
-    unchanged: !color # default = $theme.base.muted
 ```
 
 You can also override the path of the config file using the `KUBECOLOR_CONFIG`
